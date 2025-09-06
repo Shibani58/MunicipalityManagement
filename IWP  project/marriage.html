@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<body>
+<main>
+<form action="?" method="POST">
+    date:<input type ="date" name="db">
+    <input type="submit" name="submit" value="submit">
+
+</form>
+<?php
+$date=@$_POST['db'];
+$today = date("Y-m-d");
+if(isset($_POST["submit"]))
+{
+
+if ($date < $today) {
+
+    
+    $A=floor((strtotime($today)-strtotime($date))/86400);
+    echo  "The number of days are :".$A;
+}
+}
+
+?>
+
+</main>
+</body>
+</html>
+

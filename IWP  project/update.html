@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<main>
+    <body>
+            <h2 > <a href ="index.html">BACK</a></h2>
+            <button type="button"><a href="update.html">REFRESH </a></button> 
+        <h2> Update the attribute you want</h2>
+        <h4> Input the birthid Present in Record</h4>
+        <form action ="?" method="post">
+            
+            Birthid:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="birthid" ><br>
+          
+
+
+
+        <br><br>
+        <h3>Select the attribute you want to update</h3>
+        
+                <select name ="name" type="text">
+                        <option value="birthid">Birthid</option>
+                        <option value="citizenid">citizenid</option>
+                        <option value="firstname">firstname</option>
+                        <option value="middlename">middlename</option>
+                        <option value="lastname">lastname</option>
+                        <option value="gender">Gender</option>
+                        <option value="ward">Ward</option>
+                        <option value="housenumber">housenumber</option>
+                        <option value="dob">Date of birth</option>
+                        <option value="phonenumber">phonenumber</option>
+                        <option value="maritialstatus">maritialstatus</option>
+                        
+                      </select>
+                      <h5>Enter the value to be kept in record</h5>
+                      <input type="text" name="value">
+                      <button type="submit" name="submit" >submit</button>
+                  
+        </form>
+    </body>
+</main>
+</html>
+<?php
+$birthid=@$_POST['birthid'];
+$value=@$_POST['value'];
+$update=@$_POST['name'];
+$host="localhost";
+$dbusername="root";
+$dbpassword="";
+$dbname="muncipality";
+$conn=mysqli_connect($host,$dbusername,$dbpassword,$dbname);
+
+
+if(!$conn)
+{
+    echo "Server is not connected";
+
+}
+
+if(isset($_POST["submit"]))
+{
+    $c=0;
+    if($update=="firstname")
+    {
+     if (!preg_match("/^[a-zA-Z]*$/",$value)) {
+     
+        echo "<p><font color=red> <b>Please,enter the valid first name</b></font></p>";
+        $c=1;
+        
+    }
+}
+if($update=="middlename")
+{
+    if (!preg_match("/^[a-zA-Z]*$/",$value)) {
+                                                 
+        echo "<p><font color=red> <b>Please,enter the valid middle name</b></font></p>";
+        $c=1;
+        
+    }
+}
+if($update=="lastname")
+{
+    if (!preg_match("/^[a-zA-Z]*$/",$value)) {
+                                                 
+        echo "<p><font color=red> <b>Please,enter the valid last name</b></font></p>";
+        $c=1;
+        
+    }
+}
+if($update=="birthid")
+{
+    if (!preg_match("/^[0-9]*$/",$value)) {
+                                               
+        echo "<p><font color=red> <b>Please,enter the valid birthid</b></font></p>";
+        $c=1;
+        
+    }
+}
+if($update=="citizenid")
+{
+    if (!preg_match("/^[0-9]{2}+-+[0-9]{2}+-+[0-9]{2}+-+[0-9]*$/",$value)) {
+                                               
+        echo "<p><font color=red> <b>Please,enter the valid citizenid </b></font></p>";
+        $c=1;
+        
+    }
+}
+if($update=="phonenumber")
+{
+    if (!preg_match("/^[1-9]{1}+[0-9]{9}$/",$value)) {
+        echo "<p><font color=red> <b>Enter the valid phonenumber</b></font></p>";
+       $c=1;
+       
+   }
+}
+
+   
+
+   
+if($update=="dob")
+{
+   if ((date("Y-m-d") < $value  ) || (date("Y-m-d") =='$value')) {
+    echo "<p><font color=red> <b>Enter the valid Date of Birth</b></font></p>";
+    $c=1;
+       }
+    }
+    if($update=="gender")
+    {
+        if(!preg_match("/^[mM]{1}+[Aa]{1}+[Ll]{1}+[Ee]{1}$/",$value))
+        {
+            echo "<p><font color=red> <b>Enter the valid Gender</b></font></p>";
+            $c=1;
+        }
+    }
+    if($update=="ward")
+    {
+        if(!($value>0))
+        {
+            echo "<p><font color=red> <b>Enter the valid ward Number</b></font></p>";
+            $c=1;
+        }
+    }
+    if($update=="housenumber")
+    {
+        if (!preg_match("/^[0-9A-Za-z]*$/",$value)) 
+        {
+            echo "<p><font color=red> <b>Enter the valid Housenumber</b></font></p>";
+            $c=1;
+        }
+    }
+    if($update=="maritialstatus")
+    {
+        if(!(preg_match("/^[Mm]{1}+[Aa]{1}+[Rr]{2}+[Ii]{1}+[Ee]{1}+[Dd]{1}$/",$value)|| preg_match("/^[Un]{1}+[Nn]{1}+Mm]{1}+[Aa]{1}+[Rr]{2}+[Ii]{1}+[Ee]{1}+[Dd]{1}$/",$value)) )
+        {
+            echo "<p><font color=red> <b>Enter the valid maritialstatus</b></font></p>";
+            $c=1;
+        }
+    }
+
+if($c==0)
+{
+$sql="Update citizen set $update='$value' where birthid='$birthid' ";
+mysqli_query($conn,$sql);
+if(mysqli_query($conn,$sql))
+{
+    echo "Date updated successfully";
+}
+}
+
+}
+?>

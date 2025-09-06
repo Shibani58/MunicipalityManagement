@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+
+<body>
+    <main>
+            <h2 > <a href ="../Administration_Login.html">BACK</a></h2>
+            <button type="button"><a href="citizenquery.html">REFRESH </a></button> 
+        <form action="?" method ="post" >
+
+            <b>Complain:</b><br><br><textarea id="subject" placeholder="Write your complain here" name="complain" rows="5" cols="40" style="height:200px"></textarea>
+            <button type="submit" name="submit1">Submit</button><br><br>
+            <?php
+
+        $host="localhost";
+        $dbusername="root";
+        $dbpassword="";
+        $dbname="muncipality";
+        $conn=mysqli_connect($host,$dbusername,$dbpassword,$dbname);
+        
+        
+        if(!$conn)
+        {
+            echo "Server is not connected";
+        
+        }
+        if(isset($_POST["submit1"]))
+        {
+          
+$sql3="INSERT INTO complain values('','$_POST[complain]','unseen')";
+if(mysqli_query($conn,$sql3))
+echo "<b>Your complain will be solved soon</b>";
+else
+echo "Problem with the server";
+        }
+        ?>
+            <br><br><h3>VIEW YOUR RECORD</h3><br>
+            <b>Enter your birthid or citizenid:  </b><input type="text" name="id" value='<?php  echo @$_POST['id'] ?>'>
+            <button type="submit" name="submit2">Submit</button><br>
+
+        
+
+        <?php
+
+        $host="localhost";
+        $dbusername="root";
+        $dbpassword="";
+        $dbname="muncipality";
+        $conn=mysqli_connect($host,$dbusername,$dbpassword,$dbname);
+        
+        
+        if(!$conn)
+        {
+            echo "Server is not connected";
+        
+        }
+       
+        if(isset($_POST["submit2"]))
+        {
+         $sql1="SELECT * from citizen where citizenid='$_POST[id]' ";
+         $data=mysqli_query($conn,$sql1);
+         $result=mysqli_fetch_assoc($data);
+         $num=mysqli_num_rows($data);
+         $sql2="SELECT * from citizen where birthid='$_POST[id]' ";
+         $data2=mysqli_query($conn,$sql2);
+         $result2=mysqli_fetch_assoc($data2);
+         $num2=mysqli_num_rows($data2);
+         if($num>0)
+         {
+            echo "Name :" ."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;".$result["firstname"] ." ".$result2["middlename"] ." ".$result2["lastname"]."<br>";
+            echo "BIRTH ID: "."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;".$result["birthid"]."<br>";
+            echo "gender :"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;".$result["gender"]."<br>";
+            echo "phone number:".$result["phonenumber"]."<br>";
+            echo "DOB:"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;".$result["dob"]."<br>";
+         echo "citizenid: "."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;".$result["citizenid"]."<br>";
+         echo "Wardnumber: "."&nbsp;"."&nbsp;".$result["wardnumber"]."<br>";
+         echo "Housenumber: ".$result["housenumber"]."<br>";
+         echo "Muncipality: "."&nbsp;"."&nbsp;"."&nbsp;".$result["muncipalityname"]."<br>";
+         echo "Maritialstatus: "."&nbsp;".$result["maritialstatus"]."<br>";
+         
+         
+         }
+         else if($num2>0)
+         {
+             echo "Name :" ."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;".$result2["firstname"] ." ".$result2["middlename"] ." ".$result2["lastname"]."<br>";
+            echo "BIRTH ID: "."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;".$result2["birthid"]."<br>";
+            echo "gender :"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;".$result2["gender"]."<br>";
+            echo "phone number:".$result2["phonenumber"]."<br>";
+            echo "DOB:"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;".$result2["dob"]."<br>";
+         echo "citizenid: "."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;"."&nbsp;".$result2["citizenid"]."<br>";
+         echo "Wardnumber: "."&nbsp;"."&nbsp;".$result2["wardnumber"]."<br>";
+         echo "Housenumber: ".$result2["housenumber"]."<br>";
+         echo "Muncipality: "."&nbsp;"."&nbsp;"."&nbsp;".$result2["muncipalityname"]."<br>";
+         echo "Maritialstatus: "."&nbsp;".$result2["maritialstatus"]."<br>";
+         }
+         else{
+             echo "      Sorry,you entered citizenid or birthid is incorrect";
+         }
+        }
+         
+        ?>
+    </form>
+    </main>
+</body>
+</html>

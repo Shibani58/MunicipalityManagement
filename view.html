@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+            <h2 > <a href ="indexht.php">BACK</a></h2>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <style>
+    ul{
+        background-color:#eee;
+        cursor: pointer;
+    }
+    li{
+        padding: 12px;
+    }
+    
+    </style>
+    </head>
+<body>
+    <button type="button"><a href="view.html">REFRESH </a></button><br><br>
+    <main>
+        <h2> VIEW THE DETAILS OF CITIZEN</h2>
+<form method ="post" action ="?" >
+    <br>
+    <br>
+<b> Firstname:</b><input type="text" name="firstname" id="firstname"><br>
+<button type="submit" name="submit">view</button>
+
+<div
+        id="firstnamelist">
+    </div>
+</form>
+
+
+
+<?php
+
+$host="localhost";
+$dbusername="root";
+$dbpassword="";
+$dbname="muncipality";
+$conn=mysqli_connect($host,$dbusername,$dbpassword,$dbname);
+
+
+if(!$conn)
+{
+    echo "Server is not connected";
+
+}
+if(isset($_POST["submit"]))
+{
+ $sql2="SELECT * from citizen where firstname='$_POST[firstname]' ";
+ $data2=mysqli_query($conn,$sql2);
+ $result=mysqli_fetch_assoc($data2);
+ echo "<b>Firstname:</b>".$result["firstname"]."<br>";
+ echo "<b>Middlename:</b>".$result["middlename"]."<br>";
+ echo "<b>Lastname:</b>".$result["lastname"]."<br>";
+ echo "<b>BIRTH ID:</b>".$result["birthid"]."<br>";
+ echo "<b>gender :</b>".$result["gender"]."<br>";
+ echo "<b>phone number:</b>".$result["phonenumber"]."<br>";
+ echo "<b>Date of birth:</b>".$result["dob"]."<br>";
+ echo "<b>Citizenid:</b>".$result["citizenid"]."<br>";
+ echo "<b>Gender:</b>".$result["gender"]."<br>";
+ echo "<b>Housenumber:</b>".$result["housenumber"]."<br>";
+ echo "<b>Ward number:</b>".$result["wardnumber"]."<br>";
+}
+ 
+?>
+
+</main>
+</body>
+</html>
+<script>
+$(document).ready(function(){
+
+$('#firstname').keyup(function()
+{
+    var query=$(this).val();
+    if(query!='')
+    {
+
+        $.ajax({
+
+            url:"search.php",
+            method:"POST",
+            data:{query:query},
+            success:function(data)
+            {
+                $('#firstnamelist').fadeIn();
+                $('#firstnamelist').html(data);
+            }
+        });
+    }
+    else
+    {
+        $('#firstnamelist').fadeOut();
+        $('#firstnamelist').html("");
+    }
+});
+$(document).on('click','li',function()
+{
+    $('#firstname').val($(this).text());
+    $('firstname').fadeOut();
+});
+
+});
+
+</script>

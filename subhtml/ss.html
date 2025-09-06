@@ -1,0 +1,195 @@
+<?php
+if (isset($_FILES['image'])){
+$file_name = $_FILES['image']['name'];
+$file_size = $_FILES['image']['size'];
+$file_tmp = $_FILES['image']['tmp_name'];
+$file_type = $_FILES['image']['type'];
+if(move_uploaded_file($file_tmp,"abcfiles/". $file_name))
+{
+ echo "File submitted";
+}
+else{
+ echo "File not submitted";
+}
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link rel="stylesheet" href="style.css">
+ <title>Form validation</title>
+</head>
+<body>
+ <div class="container">
+ <div class="mainbox">
+ <div class="box">
+ <!-- creating a form -->
+ <form action="" method="post" enctype="multipart/form-data" onSubmit="return validation()">
+ <!--onsubmit it will be redirected to validation function-->
+ <div>
+ <label for="username">Login</label>
+ <input type="text" name="username" id="username" required>
+
+ <br><br>
+ </div>
+ <div>
+ <label for="password1">Password</label>
+ <input type="password" name="password1" id="password1" required>
+ <br><br>
+ </div>
+ <div>
+ <label for="password2">Confirm Password</label>
+ <input type="password" name="password2" id="password2" required>
+ <br><br>
+ </div>
+ <div>
+ <label for="gender" class="classA">Gender</label>
+ <select name="gender" class="classA" id="gender" required>
+ <option value="">Select Your Gender</option>
+ <option value="male">Male</option>
+ <option value="female">Female</option>
+ <option value="others">Others</option>
+ </select><br><br>
+ </div>
+ <div>
+ <label for="email">Email</label>
+ <input type="email" name="email" id="email" required>
+ <br><br>
+ </div>
+ <div class="fileupload">
+ <label for="file`" id="fileuploading">Upload file</label>
+ <input type="file" name="image" id="file1" required /><br><br>
+ </div>
+ <button type="submit" value="Register" class="btn">Register</button>
+ <br><br>
+ <span id="usererror"></span>
+ <span id="passworderror1"></span>
+ <span id="passworderror2"></span>
+ <span id="emailerror"></span>
+ <!-- <label for="passworderror2"></label> -->
+ <!-- <label for="emailerror"></label> -->
+ </form>
+
+</div>
+</div>
+ <script type="text/javascript">
+ function validation(){
+ var username= document.getElementById('username').value;
+ var password1= document.getElementById('password1').value;
+ var password2= document.getElementById('password2').value;
+ var email = document.getElementById('email').value;
+ // constraints to check input
+ var usercheck=/^[A-Za-z. ]{8,30}$/;
+ var passwordcheck=/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{16,30}$/;
+ var emailcheck = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+ // checking constraints using regex
+ if(usercheck.test(username)){
+ document.getElementById('usererror').innerHTML=" ";
+ }else{
+ document.getElementById('usererror').innerHTML="Invalid username! username should be
+atleast 8 character";
+ return false;
+ }
+ if(passwordcheck.test(password1)){
+ document.getElementById('passworderror1').innerHTML=" ";
+ }else{
+ document.getElementById('passworderror1').innerHTML="Invalid password! include at least 16
+digit,1 symbol,1 small char, 1 big char,1 number,";
+ return false;
+ }
+ if(password2.match(password1)){
+ document.getElementById('passworderror2').innerHTML=" ";
+ }else{
+ document.getElementById('passworderror2').innerHTML="Passwords are not the same";
+ return false;
+ }
+ if(emailcheck.test(email)){
+ document.getElementById('emailerror').innerHTML=" ";
+ }else{
+ document.getElementById('emailerror').innerHTML="Mail is wrong";
+ return false;
+ }
+ }
+ </script>
+</body>
+</html>
+Style.css
+*{
+ margin:0;
+ padding:0;
+}
+.mainbox{
+ border:8px solid rgb(236, 230, 230);
+ width:40%;
+}
+/* for background color */
+.box{
+ margin:0px 0px;
+ background-color:rgb(110, 108, 108);
+ padding: 10px;
+ border: 25px solid black;
+}
+/* Styling for label */
+label{
+ display: inline-block;
+ text-align: left;
+ width:40%;
+ font-size: 1.2rem;
+ color:white;
+}
+/* Styling for input and select */
+input,select{
+ margin-left:10px;
+ width:52%;
+ height:28px;
+}
+input{
+ background-color: rgb(235, 152, 152);
+}
+button:hover{
+ background-color: rgb(148, 204, 65);
+}
+input:valid{
+ background-color: rgb(148, 204, 65);
+
+}
+select:invalid{
+ background-color: rgb(235, 152, 152);
+
+}
+span{
+ color:white;
+ font-size: 20px;
+}
+/* Styling for button */
+.btn{
+ height:36.5px;
+ width:95px;
+ margin-left:2px;
+ border-radius: 0.1rem;
+ border:2px solid black;
+ box-shadow:1px solid darkgrey;
+ background-color: white;
+}
+.btn:hover{
+ cursor: pointer;
+}
+.fileupload{
+ display: inline-block;
+}
+/* For file uploading */
+.fileupload input{
+ /* display: inline-block; */
+ border: none;
+ border-radius: 2px;
+ font-size: 20px;
+ background-color: transparent;
+ width: 60%;
+ margin-left:30px;
+ width:52%;
+ height:28px;
+}

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <main>
+                <h2 > <a href ="indexht.php"> BACK </a></h2>
+                <button type="button"><a href="birthid.html">REFRESH </a></button><br><br>
+            <h2>Enter all the Birthid collected</h2>
+            <form action="?" method ="post">
+                <b>Birthid:</b><input type="text" name="birthid">
+               
+                <input type="submit" name="submit1" value="Submit" >
+            </form>
+            
+
+            <?php
+$birthid=@$_POST['birthid'];
+$host="localhost";
+$dbusername="root";
+$dbpassword="";
+$dbname="muncipality";
+$conn=mysqli_connect($host,$dbusername,$dbpassword,$dbname);
+
+
+if(!$conn)
+{
+    echo "Server is not connected";
+
+}
+
+if(isset($_POST["submit1"]))
+{
+    $c=0;
+    if (!preg_match("/^[0-9]*$/",$birthid)) {
+                                               
+        echo "<p><font color=red> <b>Please,enter the valid birthid</b></font></p>";
+        $c=1;
+        
+    }
+    if ($c==0)
+    {
+    $sql="INSERT INTO birthid values ('$birthid')";
+    $query=mysqli_query($conn,$sql);
+    if($query)
+    {
+        echo "Birthid Entered Succesfully";
+
+    }
+    else
+    {
+        echo "You had already entered this birthid";
+    }
+}
+
+}
+            ?>
+            <h2>Enter all the Citizenid collected</h2>
+            <form action="?" method ="post">
+               
+                <b>Citizenid:</b><input type="text"  name="citizenid">
+                <input type="submit" name="submit2" value="Submit" ><br>
+
+
+                <?php
+$citizenid=@$_POST['citizenid'];
+$host="localhost";
+$dbusername="root";
+$dbpassword="";
+$dbname="muncipality";
+$conn=mysqli_connect($host,$dbusername,$dbpassword,$dbname);
+
+
+if(!$conn)
+{
+    echo "Server is not connected";
+
+}
+
+if(isset($_POST["submit2"]))
+{
+    $c=0;
+    if (!preg_match("/^[0-9]{2}+-+[0-9]{2}+-+[0-9]{2}+-+[0-9]*$/",$citizenid)) {
+                                               
+        echo "<p><font color=red> <b>Please,enter the valid citizenid </b></font></p>";
+        $c=1;
+        
+    }
+if($c==0)
+{
+    $sql="INSERT INTO citizenid values ('$citizenid')";
+    $query=mysqli_query($conn,$sql);
+    if($query)
+    {
+        echo "citizenid Entered Succesfully";
+
+    }
+    else
+    {
+        echo "You had already entered this Citizenid";
+    }
+}
+}
+            ?>
+            </form>
+        </main>
+    </body>
+</html>
